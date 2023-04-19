@@ -12,7 +12,6 @@ extern char strGPS[];
  */
 
 
-
 /**
  * @brief Receives a single character using UART5.
  *
