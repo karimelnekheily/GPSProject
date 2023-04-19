@@ -1,7 +1,7 @@
 #include "GPS.h"
 
-/*
- * Global variables
+/* 
+ * Global variables used
  */
 char receivedChar;
 uint32_t strGPS_counter;
