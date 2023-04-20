@@ -8,12 +8,16 @@
 char receivedChar;
 uint32_t strGPS_counter;
 extern char strGPS[];
+//global variables for function read_RMC
 extern char *utc_time;
 extern char *status;
 extern char *latitude;
 extern char *longitude;
 extern char *speed_over_ground;
 extern char *date;
+char *token; // pointer to hold the current token
+char *delim = ","; // delimiter used to split the string
+int i = 0; // counter to keep track of the current token position
 /**
  * Function declration
  */
@@ -28,10 +32,6 @@ extern char *date;
 * @param sectence_RMC A character pointer to the RMC sentence to be parsed.
 */
 void read_RMC(char*sectence_RMC) {
-    char *token; // pointer to hold the current token
-    char *delim = ","; // delimiter used to split the string
-    int i = 0; // counter to keep track of the current token position
-
     // split the string into tokens based on the delimiter
     token = strtok(sectence_RMC, delim);
     while (token != NULL) {
