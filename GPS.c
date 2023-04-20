@@ -8,20 +8,20 @@
 char receivedChar;
 uint32_t strGPS_counter;
 extern char strGPS[];
-char *message_id;
-char *utc_time;
-char *status;
-char *latitude;
-char *ns_indicator;
-char *longitude;
-char *ew_indicator;
-char *speed_over_ground;
-char *course_over_ground;
-char *date;
-char *magentic_variation;
-char *mode;
-char *checksum;
-char *CR_LF;
+extern char *message_id;
+extern char *utc_time;
+extern char *status;
+extern char *latitude;
+extern char *ns_indicator;
+extern char *longitude;
+extern char *ew_indicator;
+extern char *speed_over_ground;
+extern char *course_over_ground;
+extern char *date;
+extern char *magentic_variation;
+extern char *mode;
+extern char *checksum;
+extern char *CR_LF;
 /**
  * Function declration
  */
