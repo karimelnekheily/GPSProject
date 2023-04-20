@@ -1,12 +1,27 @@
 #include "GPS.h"
-
+#include <stdio.h>
+#include <string.h>
+ 
 /* 
  * Global variables used
  */
 char receivedChar;
 uint32_t strGPS_counter;
 extern char strGPS[];
-
+char *message_id;
+char *utc_time;
+char *status;
+char *latitude;
+char *ns_indicator;
+char *longitude;
+char *ew_indicator;
+char *speed_over_ground;
+char *course_over_ground;
+char *date;
+char *magentic_variation;
+char *mode;
+char *checksum;
+char *CR_LF;
 /**
  * Function declration
  */
@@ -24,6 +39,60 @@ extern char strGPS[];
  * @param None
  * @return The received character or a null character if there are any errors.
  */
+void read_RMC(char*sectence_RMC) {
+    char *token;
+    char *delim = ",";
+    int i = 0;
+    token = strtok(sectence_RMC, delim);
+    while (token != NULL) {
+        switch (i) {
+            case 0:
+                message_id = token;
+                break;
+            case 1:
+                utc_time = token;
+                break;
+            case 2:
+                status = token;
+                break;
+            case 3:
+                latitude = token;
+                break;
+            case 4:
+                ns_indicator = token;
+                break;
+            case 5:
+                longitude = token;
+                break;
+            case 6:
+                ew_indicator = token;
+                break;
+            case 7:
+                speed_over_ground = token;
+                break;
+            case 8:
+                course_over_ground = token;
+                break;
+            case 9:
+                date = token;
+                break;
+            case 10:
+                magentic_variation = token;
+                break;
+            case 11:
+                mode  = token; 
+                break; 
+            case 12: 
+                checksum  = token; 
+                break; 
+            case 13: 
+                CR_LF  = token; 
+                break; 
+        } 
+        i++; 
+        token = strtok(NULL, delim); 
+    } 
+}
 uint8_t readGPSChar(){
     while (UART5_FR_R & (1<<4)){}; // Wait until the UART5 receive FIFO is not empty
     if((UART5_DR_R & 0xFFFFFF00) != 0){
