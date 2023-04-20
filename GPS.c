@@ -8,23 +8,57 @@
 char receivedChar;
 uint32_t strGPS_counter;
 extern char strGPS[];
-extern char *message_id;
 extern char *utc_time;
 extern char *status;
 extern char *latitude;
-extern char *ns_indicator;
 extern char *longitude;
-extern char *ew_indicator;
 extern char *speed_over_ground;
-extern char *course_over_ground;
 extern char *date;
-extern char *magentic_variation;
-extern char *mode;
-extern char *checksum;
-extern char *CR_LF;
 /**
  * Function declration
  */
+
+
+
+/**
+* @brief Reads and parses a sentence in the RMC format.
+* Tokenizes the sentence using `strtok` with a comma as a delimiter.
+* Assigns tokenized values to variables based on their position in the sentence.
+*
+* @param sectence_RMC A character pointer to the RMC sentence to be parsed.
+*/
+void read_RMC(char*sectence_RMC) {
+    char *token; // pointer to hold the current token
+    char *delim = ","; // delimiter used to split the string
+    int i = 0; // counter to keep track of the current token position
+
+    // split the string into tokens based on the delimiter
+    token = strtok(sectence_RMC, delim);
+    while (token != NULL) {
+        switch (i) {
+            case 1:
+                utc_time = token; // assign the second token to the global variable utc_time
+                break;
+            case 2:
+                status = token; // assign the third token to the global variable status
+                break;
+            case 3:
+                latitude = token; // assign the fourth token to the global variable latitude
+                break;
+            case 5:
+                longitude = token; // assign the sixth token to the global variable longitude
+                break;
+            case 7:
+                speed_over_ground = token; // assign the eighth token to the global variable speed_over_ground
+                break;
+            case 9:
+                date = token; // assign the tenth token to the global variable date
+                break;
+        }
+        i++; // increment the counter
+        token = strtok(NULL, delim); // get the next token
+    }
+}
 
 
 /**
@@ -39,60 +73,7 @@ extern char *CR_LF;
  * @param None
  * @return The received character or a null character if there are any errors.
  */
-void read_RMC(char*sectence_RMC) {
-    char *token;
-    char *delim = ",";
-    int i = 0;
-    token = strtok(sectence_RMC, delim);
-    while (token != NULL) {
-        switch (i) {
-            case 0:
-                message_id = token;
-                break;
-            case 1:
-                utc_time = token;
-                break;
-            case 2:
-                status = token;
-                break;
-            case 3:
-                latitude = token;
-                break;
-            case 4:
-                ns_indicator = token;
-                break;
-            case 5:
-                longitude = token;
-                break;
-            case 6:
-                ew_indicator = token;
-                break;
-            case 7:
-                speed_over_ground = token;
-                break;
-            case 8:
-                course_over_ground = token;
-                break;
-            case 9:
-                date = token;
-                break;
-            case 10:
-                magentic_variation = token;
-                break;
-            case 11:
-                mode  = token; 
-                break; 
-            case 12: 
-                checksum  = token; 
-                break; 
-            case 13: 
-                CR_LF  = token; 
-                break; 
-        } 
-        i++; 
-        token = strtok(NULL, delim); 
-    } 
-}
+
 uint8_t readGPSChar(){
     while (UART5_FR_R & (1<<4)){}; // Wait until the UART5 receive FIFO is not empty
     if((UART5_DR_R & 0xFFFFFF00) != 0){
