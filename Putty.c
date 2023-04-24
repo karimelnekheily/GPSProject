@@ -31,13 +31,15 @@ void printChar(uint8_t c){
  */
 void printString(char * str){
     // Loop until the end of the string is reached
-    while(*str != '\0'){
+    while(*str != 0){
         // Transmit the current character using the printChar function
         printChar(*str);
         // Move to the next character in the string
         str++;
     }
     // Transmit a newline character at the end of the string
-    printChar('\n');
-}
+   printChar('\r');
+   printChar('\n');
+   printChar('\r');
 
+}
